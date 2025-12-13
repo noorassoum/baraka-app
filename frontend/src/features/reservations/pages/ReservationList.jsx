@@ -36,13 +36,16 @@ const mockReservations = [
 const ReservationList = () => {
     const navigate = useNavigate();
     const{activeTab,setActiveTab}=useState("upcoming");
+     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
+    <>
     <PageWrapper>
         <Header
         title="My Order"
         onBack={()=>navigate("/reservation-success")}
         showBurger
+        onBurgerClick={() => setIsSidebarOpen(true)}
         />
 
         <div className="px-4 mt-4">
@@ -106,6 +109,11 @@ const ReservationList = () => {
       </div>
        
     </PageWrapper>
+     <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
+      </>
   )
 }
 

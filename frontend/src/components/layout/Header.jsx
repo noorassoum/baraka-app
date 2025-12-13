@@ -1,4 +1,4 @@
-const Header = ({ title, onBack, showBurger = false }) => {
+const Header = ({ title, onBack, showBurger = false, onBurgerClick }) => {
   return (
     <header className="flex items-center justify-between h-14 px-4 bg-neutral-100">
       {/* Left side: Back button or spacer */}
@@ -24,6 +24,7 @@ const Header = ({ title, onBack, showBurger = false }) => {
         {showBurger && (
           <button
             aria-label="Open menu"
+            onClick={onBurgerClick}
             className="text-neutral-800 text-titleMedium font-medium"
           >
             ☰
