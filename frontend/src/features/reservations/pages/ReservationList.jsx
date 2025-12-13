@@ -88,11 +88,17 @@ const ReservationList = () => {
                   <p>{reservation.pickupAddress}</p>
                 </div>
 
-                <div className="mt-4">
-                  <span className="text-teal-600 text-bodySmall font-medium cursor-pointer">
+                  <div className="mt-4">
+                  <button
+                    onClick={() =>
+                      navigate(`/reservations/${reservation.reservationId}`)
+                    }
+                    className="text-teal-600 text-bodySmall font-medium"
+                  >
                     View Details &gt;
-                  </span>
+                  </button>
                 </div>
+
               </div>
             </div>
           </Card>
