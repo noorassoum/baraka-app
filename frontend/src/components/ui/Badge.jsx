@@ -1,7 +1,7 @@
 const VARIANT_STYLES = {
   neutral: "bg-neutral-200 text-neutral-800",
   success: "bg-success-100 text-success-700",
-  warning: "bg-warning-100 text-warning-700",
+  teal: "bg-teal-100 text-teal-700",
   error: "bg-error-100 text-error-700",
 };
 
