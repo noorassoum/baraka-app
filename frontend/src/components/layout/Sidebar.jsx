@@ -1,10 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { FaWhatsapp,FaInstagram } from "react-icons/fa";
 import { BiDonateHeart } from "react-icons/bi";
 import { IoIosLogOut } from "react-icons/io";
 
 const Sidebar = ({ isOpen, onClose }) => {
-  const navigate = useNavigate();
   const isAuthenticated = false;
 
   if (!isOpen) return null;
@@ -66,7 +65,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                disabled:opacity-50 disabled:pointer-events-none
                 "
             >
-             <Link to='/signup'> Sign Up</Link>
+             <Link to='/register'> Sign Up</Link>
             </button>
              <button
               onClick={onClose}
@@ -83,7 +82,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 transition-colors duration-200
                disabled:opacity-50 disabled:pointer-events-none "
             >
-             <Link to='/login'> Login</Link>
+             <Link to='/'> Login</Link>
             </button>
             </div>
           }

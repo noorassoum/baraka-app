@@ -40,7 +40,6 @@ const ReservationList = () => {
         />
 
         {/* Tabs wrapper — mobile-safe override */}
-        {/*<div className="mt-4 border-b border-neutral-200">*/}
          <div className="mt-4">
   <Tabs
     tabs={[
@@ -51,9 +50,6 @@ const ReservationList = () => {
     onChange={setActiveTab}
   />
 </div>
-
-        {/*</div>*/}
-        
 
         {/* Reservation list */}
         <div className="mt-6 space-y-4">
