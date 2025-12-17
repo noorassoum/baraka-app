@@ -1,26 +1,28 @@
 const Tabs = ({ tabs = [], value, onChange }) => {
   return (
-    <div className="flex justify-between border-b border-gray-200 w-full px-60  ">
+    <div className="flex w-full border-b border-neutral-200">
       {tabs.map((tab) => {
         const isActive = tab.value === value;
 
         return (
           <button
-           key={tab.value}
+            key={tab.value}
             onClick={() => onChange(tab.value)}
             className={`
-      relative
-      px-4
-      py-3
-      text-2xl
-     font-semibold
-      text-gray-900
-    
+              flex-1
+              py-3
+              text-center
+              text-sm
+              font-semibold
+              transition-colors
               ${
                 isActive
-                  ? "text-teal-400 hover:text-teal-600 "
-                  : "text-neutral-700 border-transparent hover:border-teal-500"
+                  ? "text-teal-600 border-b-2 border-teal-600"
+                  : "text-neutral-400"
               }
+
+              sm:text-base
+              lg:text-2xl
             `}
           >
             {tab.label}

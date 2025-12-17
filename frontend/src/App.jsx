@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // Auth pages
 import Login from "./features/auth/pages/Login";
 import Register from "./features/auth/pages/Register";
+import ReservationList from "./features/reservations/pages/ReservationList"
 
 // Later you will add vendor screens, customer home, reservations etc.
 // import Home from "./features/home/Home";
@@ -17,6 +18,7 @@ function App() {
         {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/reservationList" element={<ReservationList />} />
 
         {/* Add more pages later */}
         {/* <Route path="/home" element={<Home />} /> */}
