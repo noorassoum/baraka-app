@@ -3,7 +3,7 @@ import AuthInput from "../components/AuthInput";
 import ErrorBanner from "../components/ErrorBanner";
 import { GoogleButton, AppleButton } from "../components/SocialButtons";
 import { registerCustomer } from "../auth.api";
-import { useAuth } from "../auth.store";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function Register() {
     const { login } = useAuth();
@@ -12,7 +12,7 @@ export default function Register() {
         name: "",
         email: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -42,9 +42,17 @@ export default function Register() {
 
         try {
             setLoading(true);
+
             const res = await registerCustomer(form);
-            login(res.customer, res.token);
-            window.location.href = "/home";
+
+            // ✅ save auth state
+            login(
+                { ...res.customer, role: "customer" },
+                res.token
+            );
+
+            // ❌ NO manual redirect
+            // AppRouter will handle routing based on role
         } catch (err) {
             setServerError(err.response?.data?.message || "Something went wrong");
         } finally {
@@ -54,7 +62,6 @@ export default function Register() {
 
     return (
         <div className="flex flex-col items-center px-6 py-10 w-full max-w-md mx-auto">
-
             <ErrorBanner message={serverError} />
 
             <div className="flex flex-col items-start mb-6">
@@ -67,9 +74,7 @@ export default function Register() {
                 </p>
             </div>
 
-
             <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-
                 <AuthInput
                     placeholder="Enter your name"
                     value={form.name}
