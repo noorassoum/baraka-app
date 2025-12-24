@@ -9,6 +9,6 @@ export default function AppRouter() {
   if (!user) return <AuthRoutes />;
 
   if (user.role === "vendor") return <VendorRoutes />;
-
+    
   return <CustomerRoutes />;
 }
