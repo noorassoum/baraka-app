@@ -5,7 +5,7 @@ export default function CustomerRoutes() {
     return (
         <Routes>
             <Route path="/home" element={<Home />} />
-            <Route path="*" element={<Navigate to="/home" />} />
+           {/*} <Route path="*" element={<Navigate to="/home" />} />*/}
         </Routes>
     );
 }
