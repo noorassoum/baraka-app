@@ -1,36 +1,23 @@
-// frontend/src/app/router/AuthRoutes.jsx
+// AuthRoutes.jsx
+
 import { Routes, Route, Navigate } from "react-router-dom";
 
-// EXISTING SCREENS (you already have these)
 import Login from "../../features/auth/customer/Login";
 import Register from "../../features/auth/customer/Register";
-import AuthLayout from "../layouts/AuthLayout";
 
-
+import VendorLogin from "../../features/auth/vendor/VendorLogin";
+import VendorRegister from "../../features/auth/vendor/VendorRegister";
 
 export default function AuthRoutes() {
     return (
         <Routes>
-            <Route
-                path="/login"
-                element={
-                    <AuthLayout>
-                        <Login />
-                    </AuthLayout>
-                }
-            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-            <Route
-                path="/register"
-                element={
-                    <AuthLayout>
-                        <Register />
-                    </AuthLayout>
-                }
-            />
+            <Route path="/vendor/login" element={<VendorLogin />} />
+            <Route path="/vendor/register" element={<VendorRegister />} />
 
-            {/* Default auth route */}
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
     );
 }

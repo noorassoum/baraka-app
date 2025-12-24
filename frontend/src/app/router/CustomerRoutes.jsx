@@ -1,13 +1,11 @@
-// CustomerRoutes.jsx
-import { Routes, Route } from "react-router-dom";
-import CustomerHome from "../customer/Home";
-import Reservations from "../customer/Reservations";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Home from "../../features/auth/customer/Home";
 
 export default function CustomerRoutes() {
-  return (
-    <Routes>
-      <Route path="home" element={<CustomerHome />} />
-      <Route path="reservations" element={<Reservations />} />
-    </Routes>
-  );
+    return (
+        <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="*" element={<Navigate to="/home" />} />
+        </Routes>
+    );
 }

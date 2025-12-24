@@ -4,6 +4,10 @@ const API = axios.create({
   baseURL: "http://localhost:5000/api",
 });
 
+/* ======================
+   CUSTOMER AUTH
+====================== */
+
 // REGISTER CUSTOMER
 export const registerCustomer = async (data) => {
   const res = await API.post("/customers/register", data);
@@ -16,7 +20,17 @@ export const loginCustomer = async (data) => {
   return res.data;
 };
 
-// LOGIN VENDOR (optional)
+/* ======================
+   VENDOR AUTH
+====================== */
+
+// REGISTER VENDOR
+export const registerVendor = async (data) => {
+  const res = await API.post("/vendors/register", data);
+  return res.data;
+};
+
+// LOGIN VENDOR
 export const loginVendor = async (data) => {
   const res = await API.post("/vendors/login", data);
   return res.data;
