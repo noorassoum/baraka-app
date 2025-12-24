@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./features/auth/pages/Login";
 import Register from "./features/auth/pages/Register";
 import ReservationList from "./features/reservations/pages/ReservationList"
+import ReservationDetails from "./features/reservations/pages/ReservationDetails"
 
 // Later you will add vendor screens, customer home, reservations etc.
 // import Home from "./features/home/Home";
@@ -19,6 +20,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/reservationList" element={<ReservationList />} />
+        <Route path="/reservations/:id" element={<ReservationDetails />} />
+
 
         {/* Add more pages later */}
         {/* <Route path="/home" element={<Home />} /> */}
