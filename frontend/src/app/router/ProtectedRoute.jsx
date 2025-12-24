@@ -1,14 +1,30 @@
 // frontend/src/app/router/ProtectedRoute.jsx
+const DEV_MODE = true;
+
 import { Navigate } from "react-router-dom";
 
 /**
  * TEMP auth hook
  * (will be replaced by auth.store later)
  */
+// const useAuth = () => {
+//   return {
+//     isAuthenticated: false, // toggle later for testing
+//     user: null, // { role: "customer" | "vendor" }
+//   };
+// };
+
 const useAuth = () => {
+  if (DEV_MODE) {
+    return {
+      isAuthenticated: true,
+      user: { role: "customer" }, // change to "vendor" when needed
+    };
+  }
+
   return {
-    isAuthenticated: false, // toggle later for testing
-    user: null, // { role: "customer" | "vendor" }
+    isAuthenticated: false,
+    user: null,
   };
 };
 
