@@ -3,14 +3,14 @@ import AuthInput from "../components/AuthInput";
 import ErrorBanner from "../components/ErrorBanner";
 import { GoogleButton, AppleButton } from "../components/SocialButtons";
 import { loginCustomer } from "../auth.api";
-import { useAuth } from "../auth.store";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function Login() {
     const { login } = useAuth();
 
     const [form, setForm] = useState({
         email: "",
-        password: ""
+        password: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -35,10 +35,17 @@ export default function Login() {
 
         try {
             setLoading(true);
-            const res = await loginCustomer(form);
-            login(res.customer, res.token);
 
-            window.location.href = "/home"; // redirect
+            const res = await loginCustomer(form);
+
+            // ✅ save auth state
+            login(
+                { ...res.customer, role: "customer" },
+                res.token
+            );
+
+            // ❌ NO manual redirect
+            // AppRouter will handle routing based on role
         } catch (err) {
             setServerError(err.response?.data?.message || "Something went wrong");
         } finally {
@@ -48,12 +55,9 @@ export default function Login() {
 
     return (
         <div className="flex flex-col items-center py-10 w-full max-w-md mx-auto">
-
             <ErrorBanner message={serverError} />
 
-            {/* CONTENT WRAPPER — controls exact left alignment */}
             <div className="w-full px-6">
-
                 {/* Header */}
                 <div className="mb-6">
                     <h1 className="font-alexandria text-displayMedium font-semibold">
@@ -67,11 +71,12 @@ export default function Login() {
 
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-
                     <AuthInput
                         placeholder="Enter your email"
                         value={form.email}
-                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        onChange={(e) =>
+                            setForm({ ...form, email: e.target.value })
+                        }
                         error={errors.email}
                     />
 
@@ -79,18 +84,16 @@ export default function Login() {
                         type="password"
                         placeholder="Password"
                         value={form.password}
-                        onChange={(e) => setForm({ ...form, password: e.target.value })}
+                        onChange={(e) =>
+                            setForm({ ...form, password: e.target.value })
+                        }
                         error={errors.password}
                     />
 
                     <div className="flex items-center justify-between w-full mt-1">
-
                         {/* Remember Me */}
                         <label className="flex items-center gap-2 cursor-pointer select-none">
-                            <input
-                                type="checkbox"
-                                className="checkbox-clean"
-                            />
+                            <input type="checkbox" className="checkbox-clean" />
                             <span className="text-neutral-700 text-sm">Remember Me</span>
                         </label>
 
@@ -107,12 +110,11 @@ export default function Login() {
                         type="submit"
                         disabled={loading}
                         className="w-full bg-teal-500 text-white py-3 rounded-xl
-                    text-titleMedium font-semibold 
-                    hover:bg-teal-600 disabled:bg-neutral-400 transition"
+              text-titleMedium font-semibold
+              hover:bg-teal-600 disabled:bg-neutral-400 transition"
                     >
                         {loading ? "Logging in..." : "Login"}
                     </button>
-
                 </form>
 
                 {/* OR Divider */}
@@ -124,7 +126,7 @@ export default function Login() {
                     <AppleButton />
                 </div>
 
-                {/* Footer Link */}
+                {/* Footer */}
                 <p className="text-neutral-600 text-sm text-center mt-6">
                     Don’t have an account?{" "}
                     <a href="/register" className="text-teal-500 font-semibold">
@@ -134,5 +136,4 @@ export default function Login() {
             </div>
         </div>
     );
-
 }
