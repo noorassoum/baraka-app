@@ -4,9 +4,12 @@ import ErrorBanner from "../components/ErrorBanner";
 import { GoogleButton, AppleButton } from "../components/SocialButtons";
 import { loginCustomer } from "../auth.api";
 import { useAuth } from "../../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Login() {
     const { login } = useAuth();
+     const navigate = useNavigate();
 
     const [form, setForm] = useState({
         email: "",
@@ -43,9 +46,9 @@ export default function Login() {
                 { ...res.customer, role: "customer" },
                 res.token
             );
+            navigate("/customer/home", { replace: true });
 
-            // ❌ NO manual redirect
-            // AppRouter will handle routing based on role
+            
         } catch (err) {
             setServerError(err.response?.data?.message || "Something went wrong");
         } finally {
