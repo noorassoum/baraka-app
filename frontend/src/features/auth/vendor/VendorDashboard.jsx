@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import BarakaLogo from "../../../assets/baraka-logo.png";
+
+import Footer from "../../../components/layout/footer";
+
 import {
   Menu,
   Bell,
@@ -126,23 +128,8 @@ export default function VendorDashboard() {
             onClick={() => navigate("/vendor/add-box")}
           />
         </section>
-
-        {/* ================= FOOTER ================= */}
-        <footer className="mt-8 w-full h-[340px] bg-[#EDEEEE80] flex flex-col items-center text-center px-5 py-6">
-          <img src={BarakaLogo} alt="Baraka logo" className="w-[61px] h-[61px]" />
-
-          <p className="mt-4 max-w-[338px] text-xs leading-[18px] text-[#818282]">
-            Baraka helps you discover surplus meals and reduce food waste — one box at a time.
-          </p>
-
-          <div className="mt-6 w-full max-w-[360px] border-t-[0.3px] border-[#DCDDDD]" />
-
-          <p className="mt-4 text-[12px] leading-[18px] text-[#A8A9A9]">
-            © 2025 Baraka. All rights reserved.
-          </p>
-        </footer>
-
-        <div className="h-8" />
+      <Footer />
+      <div className="h-8" />
       </div>
 
       {/* ================= SIDE MENU ================= */}
