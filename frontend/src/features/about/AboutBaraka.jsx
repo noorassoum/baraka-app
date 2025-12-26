@@ -3,16 +3,16 @@ import PageWrapper from "../../components/layout/PageWrapper";
 import "./about.css";
 
 import foodBoxImg from "../../assets/foodbox.png";
-import barakaLogo from "../../assets/barakalogo.png";
 
 import { Percent, Trash2, Users } from "lucide-react";
+import Footer from "../../components/layout/Footer";
 
 export default function AboutBaraka() {
   const navigate = useNavigate();
 
   return (
     <>
-      {/* MAIN CONTENT (CONSTRAINED) */}
+      {/* MAIN CONTENT */}
       <PageWrapper>
         <div className="about-page bg-neutral-100">
 
@@ -127,27 +127,7 @@ export default function AboutBaraka() {
       </PageWrapper>
 
       {/* FULL-WIDTH FOOTER */}
-      <footer className="about-footer bg-neutral-200 border-t border-neutral-300">
-        <div className="footer-inner">
-          <img src={barakaLogo} alt="Baraka Logo" className="footer-logo" />
-
-          <p className="text-bodySmall text-neutral-700">
-            Baraka helps you discover surplus meals and reduce food waste —
-            one box at a time.
-          </p>
-
-          <div className="footer-links text-labelMedium text-neutral-700">
-            <span>About</span>
-            <span>Contact</span>
-            <span>Privacy</span>
-            <span>Terms</span>
-          </div>
-
-          <small className="text-labelSmall text-neutral-500">
-            © 2025 Baraka. All rights reserved.
-          </small>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
