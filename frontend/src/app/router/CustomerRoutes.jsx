@@ -8,6 +8,8 @@ import ReservationSuccess from "../../features/reservations/pages/ReservationSuc
 import ProfileMain from "../../features/profile/ProfileMain";
 import EditProfile from "../../features/profile/EditProfile";
 import BoxDetails from "../../features/box-details/BoxDetails";
+import ReserveBox from "../../features/reservations/reserve-box/ReserveBox";
+
 
 export default function CustomerRoutes() {
   return (
@@ -29,6 +31,8 @@ export default function CustomerRoutes() {
 
       {/* Reservation */}
       <Route path="reservation/success" element={<ReservationSuccess />} />
+      <Route path="reserve/:id" element={<ReserveBox />} />
+
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="" replace />} />
