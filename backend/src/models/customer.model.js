@@ -18,6 +18,18 @@ const customerSchema = new mongoose.Schema(
       required: true,
       select: false, // IMPORTANT: do NOT return password unless explicitly selected
     },
+     phoneNumber: {
+      type: String,
+      default: "",
+    },
+    bio: {
+      type: String,
+      default: "",
+    },
+    avatarUrl: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

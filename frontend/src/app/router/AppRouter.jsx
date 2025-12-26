@@ -9,6 +9,9 @@ import Register from "../../features/auth/customer/Register";
 import VendorLogin from "../../features/auth/vendor/VendorLogin";
 import VendorRegister from "../../features/auth/vendor/VendorRegister";
 
+import ProfileMain from "../../features/profile/ProfileMain";
+import EditProfile from "../../features/profile/EditProfile";
+
 export default function AppRouter() {
   return (
     <Routes>
@@ -19,6 +22,24 @@ export default function AppRouter() {
       {/* Vendor auth */}
       <Route path="/vendor/login" element={<VendorLogin />} />
       <Route path="/vendor/register" element={<VendorRegister />} />
+
+      {/*Profile routes */}
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfileMain />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile/edit"
+        element={
+          <ProtectedRoute>
+            <EditProfile />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Customer app */}
       <Route
