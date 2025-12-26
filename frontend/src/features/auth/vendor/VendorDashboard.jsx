@@ -41,10 +41,8 @@ export default function VendorDashboard() {
 
         {/* ================= HEADER ================= */}
         <header className="flex items-center justify-between py-4">
-          <h1 className="text-sm font-medium text-[#5A5B5B]">
-            Vendor&apos;s Dashboard
-          </h1>
-
+          {}
+          <div />
           <div className="flex items-center gap-3">
             <Bell
               className="w-6 h-6 text-[#1A1A1A] cursor-pointer"
