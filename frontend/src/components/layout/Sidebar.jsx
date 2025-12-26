@@ -30,14 +30,14 @@ const Sidebar = ({ isOpen, onClose }) => {
 
           {isAuthenticated && (
             <div className="border-b border-neutral-400 p-5 hover:text-teal-500">
-              <Link to="/profile" onClick={onClose}>
+              <Link to="/customer/profile" onClick={onClose}>
                 My Profile
               </Link>
             </div>
           )}
 
           <div className="border-b border-neutral-400 p-5 flex flex-col gap-5">
-            <Link to="/" onClick={onClose} className="hover:text-teal-500">
+            <Link to="/customer" onClick={onClose} className="hover:text-teal-500">
               Home
             </Link>
 
@@ -47,7 +47,7 @@ const Sidebar = ({ isOpen, onClose }) => {
 
             {isAuthenticated && (
               <Link
-                to="/notifications"
+                to="/customer/notifications"
                 onClick={onClose}
                 className="hover:text-teal-500"
               >
@@ -57,7 +57,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           </div>
 
           <div className="border-b border-neutral-400 p-5">
-            <Link to="/about" onClick={onClose} className="hover:text-teal-500">
+            <Link to="/customer/about" onClick={onClose} className="hover:text-teal-500">
               About
             </Link>
           </div>
