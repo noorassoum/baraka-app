@@ -92,7 +92,7 @@ export default function VendorProfile() {
           </div>
 
           {/* Inputs container */}
-          <div className="mt-6 space-y-3">
+          <div className="mt-6 mb-6 space-y-3">
             {[
               ["Restaurant Name", "businessName", "Baraka Developer"],
               ["Phone Number", "phone", "your phone number..."],
@@ -116,7 +116,7 @@ export default function VendorProfile() {
         </div>
 
         {/* 🔹 Save button container (separate + bottom margin) */}
-        <div className="px-6 py-6">
+        <div className="px-6 pb-6">
           <button
             onClick={handleSave}
             disabled={loading}
