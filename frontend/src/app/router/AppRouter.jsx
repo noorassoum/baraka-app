@@ -23,24 +23,6 @@ export default function AppRouter() {
       <Route path="/vendor/login" element={<VendorLogin />} />
       <Route path="/vendor/register" element={<VendorRegister />} />
 
-      {/*Profile routes */}
-      <Route
-        path="/profile"
-        element={
-          <ProtectedRoute>
-            <ProfileMain />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/profile/edit"
-        element={
-          <ProtectedRoute>
-            <EditProfile />
-          </ProtectedRoute>
-        }
-      />
-
       {/* Customer app */}
       <Route
         path="/customer/*"
