@@ -26,6 +26,7 @@ export default function CustomerRoutes() {
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="" replace />} />
+
     </Routes>
   );
 }
