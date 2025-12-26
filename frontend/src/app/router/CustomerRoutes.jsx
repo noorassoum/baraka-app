@@ -31,7 +31,7 @@ export default function CustomerRoutes() {
       <Route path="reservation/success" element={<ReservationSuccess />} />
 
       {/* Fallback */}
-      <Route path="*" element={<Navigate to="" replace />} />
+      <Route path="*" element={<Navigate to="/customer" replace />} />
     </Routes>
   );
 }
