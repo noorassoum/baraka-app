@@ -69,3 +69,29 @@ export const loginCustomer = async (req, res) => {
 export const getCustomerProfile = async (req, res) => {
     res.json(req.customer);
 };
+
+// Update logged-in customer profile
+
+export const updateCustomerProfile = async (req, res) => {
+  try {
+    const customerId = req.customer._id;
+
+    const { name, phoneNumber, bio, avatarUrl } = req.body;
+
+    const updated = await Customer.findByIdAndUpdate(
+      customerId,
+      {
+        ...(name !== undefined ? { name } : {}),
+        ...(phoneNumber !== undefined ? { phoneNumber } : {}),
+        ...(bio !== undefined ? { bio } : {}),
+        ...(avatarUrl !== undefined ? { avatarUrl } : {}),
+      },
+      { new: true, runValidators: true }
+    ).select("-password");
+
+    return res.json(updated);
+  } catch (error) {
+    console.error("UPDATE CUSTOMER PROFILE ERROR:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
