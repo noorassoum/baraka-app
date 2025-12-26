@@ -4,8 +4,9 @@ import Home from "../../features/home/Home";
 import ReservationList from "../../features/reservations/pages/ReservationList";
 import Notifications from "../../features/notifications/Notifications";
 import AboutBaraka from "../../features/about/AboutBaraka";
-import BoxDetails from "../../features/box-details/BoxDetails";
-
+import ReservationSuccess from "../../features/reservations/pages/ReservationSuccess";
+import ProfileMain from "../../features/profile/ProfileMain";
+import EditProfile from "../../features/profile/EditProfile";
 
 export default function CustomerRoutes() {
   return (
@@ -17,7 +18,11 @@ export default function CustomerRoutes() {
       <Route path="about" element={<AboutBaraka />} />
       <Route path="notifications" element={<Notifications />} />
       <Route path="reservationsList" element={<ReservationList />} />
-      <Route path="boxes/:id" element={<BoxDetails />} />
+      <Route path="/reservation/success" element={<ReservationSuccess />} />
+      <Route path="/profile" element={<ProfileMain />} />
+      <Route path="/profile/edit" element={<EditProfile />} />
+
+
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="" replace />} />
