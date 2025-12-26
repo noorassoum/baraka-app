@@ -1,107 +1,107 @@
+/* ❌ REMOVE artificial bottom spacing */
 .about-page {
-    padding-bottom: 40px;
+  padding-bottom: 0;
 }
 
 /* Header */
 .about-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
 }
 
 /* Titles spacing */
 .about-section h2 {
-    margin-bottom: 16px;
-    /* big title */
+  margin-bottom: 16px;
 }
 
 .about-section h3 {
-    margin-bottom: 12px;
-    /* section titles */
+  margin-bottom: 12px;
 }
 
-
 .back-btn {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .menu-placeholder {
-    width: 24px;
+  width: 24px;
 }
 
 /* Hero */
 .about-hero {
-    position: relative;
+  position: relative;
 }
 
 .about-hero img {
-    width: 100%;
-    border-radius: 12px;
+  width: 100%;
+  border-radius: 12px;
 }
 
 .hero-fade {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 120px;
-    background: linear-gradient(to bottom,
-            rgba(255, 255, 255, 0),
-            #f7f8f7);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    #f7f8f7
+  );
 }
 
 /* Sections */
 .about-section {
-    padding: 16px 0;
+  padding: 16px 0;
 }
 
 /* Why cards */
 .why-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .why-card {
-    border-radius: 14px;
-    padding: 14px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 /* CTA */
 .cta {
-    text-align: center;
+  text-align: center;
 }
 
-/* Footer */
+/* ❌ REMOVE margin-top that pushes footer away */
 .about-footer {
-    text-align: center;
-    margin-top: 40px;
-    padding-top: 20px;
+  text-align: center;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Footer layout (FULL WIDTH handled in JSX) */
+.footer-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 16px 48px; /* bottom breathing space */
+  text-align: center;
 }
 
 .footer-logo {
-    display: block;
-    margin: 0 auto 12px auto;
-    width: 72px;
+  display: block;
+  margin: 0 auto 12px auto;
+  width: 72px;
 }
 
 .footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin: 12px 0;
-}
-
-.footer-inner {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 32px 16px 48px;
-    /* EXTRA bottom space */
-    text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 12px 0;
 }

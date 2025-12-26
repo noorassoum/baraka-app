@@ -1,0 +1,17 @@
+.categories-wrapper {
+    margin: 16px 0;
+}
+
+.categories-scroll {
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.categories-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.categories-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
