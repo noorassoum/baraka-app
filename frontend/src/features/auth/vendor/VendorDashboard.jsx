@@ -35,14 +35,15 @@ export default function VendorDashboard() {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="min-h-screen bg-[#F7F8F7] relative">
-      {/* FULL WIDTH PAGE */}
-      <div className="w-full px-5">
+    <div className="min-h-screen bg-[#F7F8F7] flex justify-center relative">
+      <div className="w-full max-w-[402px] px-5">
 
         {/* ================= HEADER ================= */}
         <header className="flex items-center justify-between py-4">
-          {}
-          <div />
+          <h1 className="text-sm font-medium text-[#5A5B5B]">
+            Vendor&apos;s Dashboard
+          </h1>
+
           <div className="flex items-center gap-3">
             <Bell
               className="w-6 h-6 text-[#1A1A1A] cursor-pointer"
@@ -71,15 +72,14 @@ export default function VendorDashboard() {
             Today&apos;s Overview
           </h3>
 
-          {/* RESPONSIVE STAT CARDS */}
-          <div className="grid grid-cols-3 gap-1.5 w-full">
+          <div className="flex gap-1.5">
             <StatCard
               icon={Box}
               color="#2CB7AA"
               value="0"
               title="Boxes Posted Today"
               subtitle="Boxes you added today"
-              subtitleWidth="w-[70px]"
+              width="w-[70px]"
             />
 
             <StatCard
@@ -88,7 +88,7 @@ export default function VendorDashboard() {
               value="0"
               title="Reservations Today"
               subtitle="New reservations made today"
-              subtitleWidth="w-[70px]"
+              width="w-[70px]"
             />
 
             <StatCard
@@ -97,13 +97,13 @@ export default function VendorDashboard() {
               value="0"
               title="Pickup Rate"
               subtitle="Percentage of boxes successfully picked up"
-              subtitleWidth="w-[76px]"
+              width="w-[76px]"
             />
           </div>
         </section>
 
         {/* ================= ACTION CARDS ================= */}
-        <section className="mt-8 flex flex-col gap-3">
+        <section className="mt-8 flex flex-col gap-3 items-center">
           <ActionCard
             icon={Package}
             color="#2CB7AA"
@@ -148,101 +148,118 @@ export default function VendorDashboard() {
       </div>
 
       {/* ================= SIDE MENU ================= */}
-      <div
-        className={`fixed inset-0 z-50 transition-opacity duration-300 ${
-          isMenuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
-      >
-        <div
-          className="absolute inset-0 bg-black/30"
-          onClick={() => setIsMenuOpen(false)}
-        />
+<div
+  className={`fixed inset-0 z-50 transition-opacity duration-300 ${
+    isMenuOpen
+      ? "opacity-100 pointer-events-auto"
+      : "opacity-0 pointer-events-none"
+  }`}
+>
+  {/* Overlay */}
+  <div
+    className="absolute inset-0 bg-black/30"
+    onClick={() => setIsMenuOpen(false)}
+  />
 
-        <div
-          className={`fixed right-0 top-0 h-full w-[260px] bg-[#F7F8F7] p-4
-          transform transition-transform duration-300
-          ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}
+  {/* Panel */}
+  <div
+    className={`fixed right-0 top-0 h-full w-[260px] bg-[#F7F8F7] p-4
+    transform transition-transform duration-300
+    ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}
+  >
+    <div className="flex flex-col h-full justify-between">
+
+      {/* ===== TOP CONTENT (TEXT ONLY) ===== */}
+      <div>
+        {/* Restaurant Profile */}
+        <button
+          onClick={() => {
+            setIsMenuOpen(false);
+            navigate("/vendor/profile");
+          }}
+          className="block text-[14px] leading-[22px] text-[#1A1A1A]"
         >
-          <div className="flex flex-col h-full justify-between">
+          Restaurant Profile
+        </button>
 
-            <div>
-              <button
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  navigate("/vendor/profile");
-                }}
-                className="text-[14px] leading-[22px] text-[#1A1A1A]"
-              >
-                Restaurant Profile
-              </button>
+        {/* Divider */}
+        <div className="my-3 w-[150px] border-t-[0.3px] border-[#00000078]" />
 
-              <div className="my-3 w-[150px] border-t-[0.3px] border-[#00000078]" />
+        {/* Navigation links */}
+        {[
+          { label: "Dashboard", path: "/vendor/dashboard" },
+          { label: "My Boxes", path: "/vendor/boxes" },
+          { label: "Reservations", path: "/vendor/reservations" },
+          { label: "Notifications", path: "/vendor/notifications" },
+        ].map((item) => (
+          <button
+            key={item.label}
+            onClick={() => {
+              setIsMenuOpen(false);
+              navigate(item.path);
+            }}
+            className={`block mb-3 text-[14px] leading-[22px] ${
+              isActive(item.path)
+                ? "text-[#2CB7AA] font-medium"
+                : "text-[#1A1A1A]"
+            }`}
+          >
+            {item.label}
+          </button>
+        ))}
 
-              {[
-                { label: "Dashboard", path: "/vendor/dashboard" },
-                { label: "My Boxes", path: "/vendor/boxes" },
-                { label: "Reservations", path: "/vendor/reservations" },
-                { label: "Notifications", path: "/vendor/notifications" },
-              ].map((item) => (
-                <button
-                  key={item.label}
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    navigate(item.path);
-                  }}
-                  className={`block mb-3 text-[14px] leading-[22px] ${
-                    isActive(item.path)
-                      ? "text-[#2CB7AA] font-medium"
-                      : "text-[#1A1A1A]"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
+        {/* Divider */}
+        <div className="my-4 w-[150px] border-t-[0.3px] border-[#00000078]" />
 
-              <div className="my-4 w-[150px] border-t-[0.3px] border-[#00000078]" />
+        {/* Add Box (TEAL BUTTON) */}
+        <button
+          onClick={() => {
+            setIsMenuOpen(false);
+            navigate("/vendor/add-box");
+          }}
+          className="w-[163px] h-[44px] bg-[#2CB7AA] rounded-[12px]
+          text-white text-[14px] flex items-center justify-center"
+        >
+          Add Box
+        </button>
 
-              <button
-                onClick={() => navigate("/vendor/add-box")}
-                className="w-[163px] h-[44px] bg-[#2CB7AA] rounded-[12px]
-                text-white text-[14px] flex items-center justify-center"
-              >
-                Add Box
-              </button>
+        {/* Log Out (ONLY WHITE BOX) */}
+        <button
+          onClick={() => navigate("/login")}
+          className="
+            mt-3
+           w-[163px] h-[44px]
+           bg-white
+           rounded-[12px]
+          flex items-center justify-center gap-2
+          "
+        >
+          <LogOut className="w-5 h-5 text-[#E53935]" />
+          <span className="text-[#E53935] text-[16px] leading-[24px]">
+            Log Out
+          </span>
+        </button>
+      </div>
 
-              <button
-                onClick={() => navigate("/login")}
-                className="mt-3 w-[163px] h-[44px] bg-white rounded-[12px]
-                flex items-center justify-center gap-2"
-              >
-                <LogOut className="w-5 h-5 text-[#E53935]" />
-                <span className="text-[#E53935] text-[16px] leading-[24px]">
-                  Log Out
-                </span>
-              </button>
-            </div>
+      {/* ===== FOR MORE INFORMATION ===== */}
+      <div className="mt-6 text-[12px] text-[#5A5B5B] space-y-3 px-2">
+        <p className="font-medium">For more information</p>
 
-            <div className="mt-6 text-[12px] text-[#5A5B5B] space-y-3 px-2">
-              <p className="font-medium">For more information</p>
+        <div className="flex items-center gap-2">
+          <Globe className="w-4 h-4 text-[#2CB7AA]" />
+          <span>Baraka.com</span>
+        </div>
 
-              <div className="flex items-center gap-2">
-                <Globe className="w-4 h-4 text-[#2CB7AA]" />
-                <span>Baraka.com</span>
-              </div>
+        <div className="flex items-center gap-2">
+          <Phone className="w-4 h-4 text-[#2CB7AA]" />
+          <span>+961 81 256 495</span>
+        </div>
 
-              <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-[#2CB7AA]" />
-                <span>+961 81 256 495</span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Instagram className="w-4 h-4 text-[#2CB7AA]" />
-                <span>baraka_</span>
-              </div>
-            </div>
-
+        <div className="flex items-center gap-2">
+          <Instagram className="w-4 h-4 text-[#2CB7AA]" />
+          <span>baraka_</span>
+        </div>
+      </div>
           </div>
         </div>
       </div>
@@ -252,9 +269,9 @@ export default function VendorDashboard() {
 
 /* ================= COMPONENTS ================= */
 
-function StatCard({ icon: Icon, color, value, title, subtitle, subtitleWidth }) {
+function StatCard({ icon: Icon, color, value, title, subtitle, width }) {
   return (
-    <div className="w-full h-[108px] rounded-[20px] border border-[#EDEEEE] bg-white px-5 py-[9px] shadow-[0px_2px_2px_0px_#0000000D]">
+    <div className="w-[116px] h-[108px] rounded-[20px] border border-[#EDEEEE] bg-white px-5 py-[9px] shadow-[0px_2px_2px_0px_#0000000D]">
       <div className="flex items-center gap-[4px]">
         <Icon className="w-5 h-5" style={{ color }} />
         <span className="text-[10px] font-medium text-[#1A1A1A]">
@@ -266,7 +283,7 @@ function StatCard({ icon: Icon, color, value, title, subtitle, subtitleWidth }) 
         <p className="text-[10px] font-medium text-[#1A1A1A] mb-[2px]">
           {title}
         </p>
-        <p className={`${subtitleWidth} text-[8px] text-[#5A5B5B]`}>
+        <p className={`${width} text-[8px] text-[#5A5B5B]`}>
           {subtitle}
         </p>
       </div>
@@ -278,8 +295,7 @@ function ActionCard({ icon: Icon, color, title, subtitle, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="w-full h-[104px] rounded-[20px] border border-[#EDEEEE] bg-white px-5
-      flex items-center shadow-[0px_2px_4px_0px_#0000000F] active:scale-[0.98]"
+      className="w-[318px] h-[104px] rounded-[20px] border border-[#EDEEEE] bg-white px-5 flex items-center shadow-[0px_2px_4px_0px_#0000000F] active:scale-[0.98]"
     >
       <div className="w-[48px] h-[51px] flex items-center justify-center shrink-0">
         <Icon className="w-8 h-8" style={{ color }} />
