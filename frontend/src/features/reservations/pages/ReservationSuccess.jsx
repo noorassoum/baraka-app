@@ -5,7 +5,7 @@ import Card from "../../../components/ui/Card";
 import Badge from "../../../components/ui/Badge";
 import Button from "../../../components/ui/Button";
 
-import successBox from "../../../assets/successbox.jpg";
+import successBox from "../../../assets/successbox.png";
 
 /* ---------- MOCK DATA ---------- */
 const reservationData = {
