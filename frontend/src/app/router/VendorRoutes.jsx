@@ -3,6 +3,7 @@ import VendorDashboard from "../../features/auth/vendor/VendorDashboard";
 import VendorBoxDetails from "../../features/vendor-box-details/VendorBoxDetails";
 import VendorReservationDetails from "../../features/vendor-reservations/VendorReservationDetails";
 import AddBox from "../../features/boxes/pages/add-box/AddBox";
+import VendorProfile from "../../features/vendor/VendorProfile"
 
 
 
@@ -22,6 +23,9 @@ export default function VendorRoutes() {
         path="reservations/:id"
         element={<VendorReservationDetails />}
       />
+
+      {/*Vendor profile */}
+      <Route path="profile" element={<VendorProfile />} />
 
     </Routes>
 

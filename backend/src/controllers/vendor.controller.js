@@ -78,7 +78,7 @@ export const getVendorProfile = async (req, res) => {
 // ===============================
 // UPDATE VENDOR PROFILE
 // ===============================
-export const updateVendor = async (req, res) => {
+{/*export const updateVendor = async (req, res) => {
   try {
     const vendorId = req.vendor._id;  // <--- ERROR was here
 
@@ -104,7 +104,7 @@ export const updateVendor = async (req, res) => {
     console.log("UPDATE VENDOR ERROR:", error);
     return res.status(500).json({ message: error.message });
   }
-};
+}; */}
 
 export const vendorReservations = async (req, res) => {
   try {
@@ -131,3 +131,32 @@ export const vendorReservations = async (req, res) => {
   }
 };
 
+export const updateVendorProfile = async (req, res) => {
+  try {
+    const vendorId = req.vendor._id;
+
+    const updates = {
+      businessName: req.body.businessName,
+      ownerName: req.body.ownerName,
+      email: req.body.email,
+      phone: req.body.phone,
+      location: req.body.location,
+      bio: req.body.bio,
+      avatarUrl: req.body.avatarUrl,
+    };
+
+    Object.keys(updates).forEach(
+      (key) => updates[key] === undefined && delete updates[key]
+    );
+
+    const vendor = await Vendor.findByIdAndUpdate(vendorId, updates, {
+      new: true,
+      runValidators: true,
+    }).select("-password");
+
+    return res.status(200).json(vendor);
+  } catch (error) {
+    console.error("UPDATE VENDOR PROFILE ERROR:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};

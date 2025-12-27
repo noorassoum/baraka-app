@@ -9,8 +9,12 @@ const vendorSchema = new mongoose.Schema(
     password: { type: String, required: true, select: false },
 
     // vendor-specific fields
-    location: { type: String },
-    phone: { type: String },
+   phone: { type: String, default: "" },
+    location: { type: String, default: "" },
+
+    bio: { type: String, default: "" },
+    avatarUrl: { type: String, default: "" },
+     
   },
   { timestamps: true }
 );
