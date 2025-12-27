@@ -27,7 +27,7 @@ export default function MyBoxes() {
     },
     {
       id: 2,
-      title: "Vegan Salad Box",
+      title: "Chicken Pasta  Box",
       pickupInfo: "Today • 1:00 PM - 3:00 PM",
       status: "Active",
       available: true,
@@ -35,13 +35,13 @@ export default function MyBoxes() {
     },
     {
       id: 3,
-      title: "Beef Bowl Box",
+      title: "Chicken Pasta Box",
       pickupInfo: "Yesterday • 6:00 PM - 8:00 PM",
       status: "Reserved",
     },
     {
       id: 4,
-      title: "Dessert Box",
+      title: "Chicken Pasta Box",
       pickupInfo: "Last week • 4:00 PM - 6:00 PM",
       status: "Completed",
       canEdit: false,
@@ -109,12 +109,12 @@ export default function MyBoxes() {
         <div className="h-20" />
 
         {/* Floating Add */}
-        <button
+         <button
           onClick={() => navigate("/vendor/add-box")}
-          className="fixed bottom-6 right-6 w-[56px] h-[56px] rounded-full bg-[#2CB7AA] text-white"
-        >
-          <Plus />
-        </button>
+          className="fixed bottom-6 right-6 w-[56px] h-[56px] rounded-full bg-[#2CB7AA] flex items-center justify-center shadow-[0px_4px_12px_#00000026]"
+          >
+            <Plus className="w-6 h-6 text-white" />
+            </button>
       </div>
 
       {/* Confirm Delete */}
