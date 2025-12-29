@@ -5,6 +5,9 @@ import VendorReservationDetails from "../../features/vendor-reservations/VendorR
 import AddBox from "../../features/boxes/pages/add-box/AddBox";
 import MyBoxes from "../../features/boxes/pages/my-boxes/MyBoxes";
 import VendorNotifications from "../../features/vendor-notifications/VendorNotifications";
+import VendorProfile from "../../features/vendor/VendorProfile"
+
+
 
 export default function VendorRoutes() {
   return (
@@ -27,6 +30,9 @@ export default function VendorRoutes() {
     <Route path="notifications"
      element={< VendorNotifications/>}
      />
+      {/*Vendor profile */}
+      <Route path="profile" element={<VendorProfile />} />
+
     </Routes>
 
   );
