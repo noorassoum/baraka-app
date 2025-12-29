@@ -4,6 +4,7 @@ import VendorBoxDetails from "../../features/vendor-box-details/VendorBoxDetails
 import VendorReservationDetails from "../../features/vendor-reservations/VendorReservationDetails";
 import AddBox from "../../features/boxes/pages/add-box/AddBox";
 import MyBoxes from "../../features/boxes/pages/my-boxes/MyBoxes";
+import VendorProfile from "../../features/vendor/VendorProfile"
 
 
 
@@ -24,6 +25,9 @@ export default function VendorRoutes() {
         element={<VendorReservationDetails />}
       />
     <Route path="boxes" element={<MyBoxes />} />
+
+      {/*Vendor profile */}
+      <Route path="profile" element={<VendorProfile />} />
 
     </Routes>
 
