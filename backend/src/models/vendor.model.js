@@ -8,24 +8,22 @@ const vendorSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true, select: false },
 
-    // vendor-specific fields
-    location: { type: String },
-    phone: { type: String },
+    phone: { type: String, default: "" },
+    location: { type: String, default: "" },
   },
   { timestamps: true }
 );
 
-// Hash password before save
+// Hash password
 vendorSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
-
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Compare password method
-vendorSchema.methods.matchPassword = async function (entered) {
-  return bcrypt.compare(entered, this.password);
+// Compare password
+vendorSchema.methods.matchPassword = function (enteredPassword) {
+  return bcrypt.compare(enteredPassword, this.password);
 };
 
 export default mongoose.model("Vendor", vendorSchema);
