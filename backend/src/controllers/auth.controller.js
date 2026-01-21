@@ -1,81 +1,91 @@
 import User from "../models/user.model.js";
 import { generateToken } from "../utils/generateToken.js";
 
-// ========================================
-// REGISTER USER
-// ========================================
-export const registerUser = async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
+// ================= REGISTER =================
+export const register = async (req, res) => {
+  const { name, email, password, role = "customer" } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
-
-    const existing = await User.findOne({ email });
-    if (existing) {
-      return res.status(400).json({ message: "Email already registered" });
-    }
-
-    const user = await User.create({ name, email, password });
-
-    return res.status(201).json({
-      token: generateToken(user._id),
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
-    });
-  } catch (err) {
-    console.log("REGISTER ERROR:", err);
-    return res.status(500).json({ message: "Server error" });
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: "All fields are required" });
   }
+
+  const exists = await User.findOne({ email });
+  if (exists) {
+    return res.status(400).json({ message: "Email already registered" });
+  }
+
+  const user = await User.create({ name, email, password, role });
+
+  return res.status(201).json({
+    token: generateToken(user),
+    user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    },
+  });
+};
+
+// ================= LOGIN =================
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email }).select("+password");
+  if (!user || !(await user.matchPassword(password))) {
+    return res.status(400).json({ message: "Invalid credentials" });
+  }
+
+  return res.status(200).json({
+    token: generateToken(user),
+    user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    },
+  });
+};
+
+// ================= ME =================
+export const me = async (req, res) => {
+  res.json(req.user);
 };
 
 // ========================================
-// LOGIN USER
+// UPDATE CURRENT USER
 // ========================================
-export const loginUser = async (req, res) => {
+export const updateMe = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const updates = {
+      name: req.body.name,
+      phoneNumber: req.body.phoneNumber,
+      bio: req.body.bio,
+      avatarUrl: req.body.avatarUrl,
+    };
 
-    const user = await User.findOne({ email }).select("+password");
+    // remove undefined fields
+    Object.keys(updates).forEach(
+      (key) => updates[key] === undefined && delete updates[key]
+    );
 
-    if (!user) {
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
-
-    const isMatch = await user.matchPassword(password);
-
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      updates,
+      { new: true }
+    );
 
     return res.status(200).json({
-      token: generateToken(user._id),
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      phoneNumber: user.phoneNumber || "",
+      bio: user.bio || "",
+      avatarUrl: user.avatarUrl || "",
     });
   } catch (err) {
-    console.log("LOGIN ERROR:", err);
+    console.log("UPDATE ME ERROR:", err);
     return res.status(500).json({ message: "Server error" });
   }
-};
-
-// ========================================
-// GET CURRENT USER
-// ========================================
-export const getMe = async (req, res) => {
-  return res.status(200).json({
-    _id: req.user._id,
-    name: req.user.name,
-    email: req.user.email,
-    role: req.user.role,
-  });
 };
