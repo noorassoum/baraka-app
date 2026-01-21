@@ -7,7 +7,7 @@ import Header from "../../../components/layout/Header.jsx";
 import PageWrapper from "../../../components/layout/PageWrapper.jsx";
 import Card from "../../../components/ui/Card";
 import Badge from "../../../components/ui/Badge";
-import Sidebar from "../../../components/layout/SideBar";
+import Sidebar from "../../../components/layout/Sidebar.jsx";
 
 import { useReservations } from "../useReservations";
 
