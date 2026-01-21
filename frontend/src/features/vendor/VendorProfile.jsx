@@ -1,128 +1,188 @@
 import { useEffect, useRef, useState } from "react";
 import { FiUser } from "react-icons/fi";
-import { getVendorProfile, updateVendorProfile } from "./vendor.api";
+
+/**
+ * Simple country code detection (frontend-only)
+ * You can extend this list later if needed.
+ */
+const COUNTRY_CODES = {
+  LB: { code: "+961", label: "🇱🇧 +961" },
+  FR: { code: "+33", label: "🇫🇷 +33" },
+  US: { code: "+1", label: "🇺🇸 +1" },
+  CA: { code: "+1", label: "🇨🇦 +1" },
+  DE: { code: "+49", label: "🇩🇪 +49" },
+};
 
 export default function VendorProfile() {
-  const fileRef = useRef(null);
+  const fileInputRef = useRef(null);
 
-  const [form, setForm] = useState({
-    businessName: "",
-    phone: "",
-    email: "",
-    bio: "",
-    location: "",
-    avatarUrl: "",
-  });
+  const [avatar, setAvatar] = useState("");
+  const [restaurantName, setRestaurantName] = useState("Baraka Developer");
+  const [countryCode, setCountryCode] = useState("+961");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [bio, setBio] = useState("");
+  const [location, setLocation] = useState("");
 
-  const [loading, setLoading] = useState(false);
-
+  /* Auto-detect country code on first load */
   useEffect(() => {
-    (async () => {
-      const data = await getVendorProfile();
-      setForm({
-        businessName: data.businessName || "",
-        phone: data.phone || "",
-        email: data.email || "",
-        bio: data.bio || "",
-        location: data.location || "",
-        avatarUrl: data.avatarUrl || "",
-      });
-    })();
+    const lang = navigator.language || "en-US"; // e.g. en-LB
+    const country = lang.split("-")[1];
+
+    if (country && COUNTRY_CODES[country]) {
+      setCountryCode(COUNTRY_CODES[country].code);
+    }
   }, []);
 
-  const handleChange = (key, value) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
   };
 
-  const handleImage = (e) => {
+  const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setForm((prev) => ({
-      ...prev,
-      avatarUrl: URL.createObjectURL(file),
-    }));
-  };
-
-  const handleSave = async () => {
-    setLoading(true);
-    await updateVendorProfile(form);
-    setLoading(false);
+    setAvatar(URL.createObjectURL(file));
   };
 
   return (
-    <div className="h-screen bg-neutral-100 overflow-hidden">
-      <div className="mx-auto w-full max-w-[390px] h-full flex flex-col">
-        {/* 🔹 Header */}
-        <div className="px-6 pt-4">
-          <h1 className="text-headlineSmall font-semibold text-neutral-900">
-            Restaurant Profile
-          </h1>
+    <div className="min-h-screen bg-neutral-100">
+      <div className="mx-auto w-full max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
+        {/* Title */}
+        <h1 className="text-xl font-semibold text-neutral-900">
+          Restaurant Profile
+        </h1>
+
+        {/* Avatar */}
+        <div className="mt-8 flex flex-col items-center">
+          <div className="h-28 w-28 rounded-full bg-neutral-300 flex items-center justify-center overflow-hidden">
+            {avatar ? (
+              <img
+                src={avatar}
+                alt="avatar"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <FiUser size={52} className="text-neutral-500" />
+            )}
+          </div>
+
+          <button
+            onClick={handleImageClick}
+            className="mt-4 rounded-full border border-teal-400 bg-teal-100 px-6 py-2 text-sm font-medium text-teal-600 hover:bg-teal-200 transition"
+          >
+            Change Picture
+          </button>
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
+          />
         </div>
 
-        {/* 🔹 Main content (avatar + inputs) */}
-        <div className="flex-1 px-6 pt-4">
-          {/* Avatar */}
-          <div className="flex flex-col items-center">
-            <div className="h-28 w-28 rounded-full bg-neutral-300 flex items-center justify-center overflow-hidden">
-              {form.avatarUrl ? (
-                <img
-                  src={form.avatarUrl}
-                  alt="avatar"
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <FiUser size={54} className="text-neutral-500" />
-              )}
-            </div>
-
-            <button
-              onClick={() => fileRef.current.click()}
-              className="mt-4 rounded-full border border-teal-300 bg-teal-100 px-6 py-2 text-bodySmall font-medium text-teal-600"
-            >
-              Change Picture
-            </button>
-
+        {/* Form */}
+        <div className="mt-10 space-y-6">
+          {/* Restaurant Name */}
+          <div>
+            <label className="block text-sm font-medium text-neutral-700">
+              Restaurant Name
+            </label>
             <input
-              ref={fileRef}
-              type="file"
-              className="hidden"
-              accept="image/*"
-              onChange={handleImage}
+              value={restaurantName}
+              onChange={(e) => setRestaurantName(e.target.value)}
+              className="mt-2 w-full rounded-xl border border-neutral-300 px-4 py-3 text-sm focus:outline-none focus:border-teal-500"
             />
           </div>
 
-          {/* Inputs container */}
-          <div className="mt-6 mb-6 space-y-3">
-            {[
-              ["Restaurant Name", "businessName", "Baraka Developer"],
-              ["Phone Number", "phone", "your phone number..."],
-              ["Email", "email", "your email..."],
-              ["Bio", "bio", "Bio, e.g..."],
-              ["Restaurant Location", "location", "location..."],
-            ].map(([label, key, placeholder]) => (
-              <div key={key}>
-                <div className="text-bodySmall font-medium text-neutral-700">
-                  {label}
-                </div>
-                <input
-                  value={form[key]}
-                  onChange={(e) => handleChange(key, e.target.value)}
-                  placeholder={placeholder}
-                  className="mt-2 w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-bodyMedium text-neutral-900 placeholder-neutral-400 focus:border-teal-500 focus:outline-none"
-                />
-              </div>
-            ))}
+          {/* Phone Number */}
+          <div>
+            <label className="block text-sm font-medium text-neutral-700">
+              Phone Number
+            </label>
+
+            <div className="mt-2 flex gap-2">
+              {/* Country Code */}
+              <select
+                value={countryCode}
+                onChange={(e) => setCountryCode(e.target.value)}
+                className="rounded-xl border border-neutral-300 bg-white px-3 py-3 text-sm focus:outline-none focus:border-teal-500"
+              >
+                {Object.values(COUNTRY_CODES).map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+
+              {/* Phone Input */}
+              <input
+                type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                value={phone}
+                onChange={(e) =>
+                  setPhone(e.target.value.replace(/\D/g, ""))
+                }
+                placeholder="03 123 456"
+                className="flex-1 rounded-xl border border-neutral-300 px-4 py-3 text-sm placeholder-neutral-400 focus:outline-none focus:border-teal-500"
+              />
+            </div>
+          </div>
+
+          {/* Email */}
+          <div>
+            <label className="block text-sm font-medium text-neutral-700">
+              Email
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="your email..."
+              className="mt-2 w-full rounded-xl border border-neutral-300 px-4 py-3 text-sm placeholder-neutral-400 focus:outline-none focus:border-teal-500"
+            />
+          </div>
+
+          {/* Bio */}
+          <div>
+            <label className="block text-sm font-medium text-neutral-700">
+              Bio
+            </label>
+            <textarea
+              rows={3}
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              placeholder="Bio, e.g..."
+              className="mt-2 w-full rounded-xl border border-neutral-300 px-4 py-3 text-sm placeholder-neutral-400 focus:outline-none focus:border-teal-500 resize-none"
+            />
+          </div>
+
+          {/* Location */}
+          <div>
+            <label className="block text-sm font-medium text-neutral-700">
+              Restaurant Location
+            </label>
+            <select
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className="mt-2 w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm focus:outline-none focus:border-teal-500"
+            >
+              <option value="">Select location...</option>
+              <option value="Beirut">Beirut</option>
+              <option value="Tripoli">Tripoli</option>
+              <option value="Saida">Saida</option>
+              <option value="Zahle">Zahle</option>
+              <option value="Jounieh">Jounieh</option>
+            </select>
           </div>
         </div>
 
-        {/* 🔹 Save button container (separate + bottom margin) */}
-        <div className="px-6 pb-6">
-          <button
-            onClick={handleSave}
-            disabled={loading}
-            className="w-full rounded-xl bg-teal-500 py-4 text-bodyMedium font-semibold text-white disabled:bg-neutral-300"
-          >
-            {loading ? "Saving..." : "Save"}
+        {/* Save */}
+        <div className="mt-10">
+          <button className="w-full sm:w-auto rounded-xl bg-teal-500 px-8 py-3.5 text-sm font-semibold text-white hover:bg-teal-600 transition">
+            Save
           </button>
         </div>
       </div>
