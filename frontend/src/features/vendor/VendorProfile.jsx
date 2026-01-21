@@ -1,188 +1,172 @@
 import { useEffect, useRef, useState } from "react";
 import { FiUser } from "react-icons/fi";
-
-/**
- * Simple country code detection (frontend-only)
- * You can extend this list later if needed.
- */
-const COUNTRY_CODES = {
-  LB: { code: "+961", label: "🇱🇧 +961" },
-  FR: { code: "+33", label: "🇫🇷 +33" },
-  US: { code: "+1", label: "🇺🇸 +1" },
-  CA: { code: "+1", label: "🇨🇦 +1" },
-  DE: { code: "+49", label: "🇩🇪 +49" },
-};
+import { getVendorProfile, updateVendorProfile } from "./vendor.api";
 
 export default function VendorProfile() {
-  const fileInputRef = useRef(null);
+  const fileRef = useRef(null);
 
-  const [avatar, setAvatar] = useState("");
-  const [restaurantName, setRestaurantName] = useState("Baraka Developer");
-  const [countryCode, setCountryCode] = useState("+961");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [bio, setBio] = useState("");
-  const [location, setLocation] = useState("");
+  const [form, setForm] = useState({
+    businessName: "",
+    phone: "",
+    email: "",
+    bio: "",
+    location: "",
+    avatarUrl: "",
+  });
 
-  /* Auto-detect country code on first load */
+  const [loading, setLoading] = useState(false);
+
+  /* ======================
+     FETCH PROFILE
+  ====================== */
   useEffect(() => {
-    const lang = navigator.language || "en-US"; // e.g. en-LB
-    const country = lang.split("-")[1];
+    const loadProfile = async () => {
+      try {
+        const data = await getVendorProfile();
+        setForm({
+          businessName: data.businessName || "",
+          phone: data.phone || "",
+          email: data.email || "",
+          bio: data.bio || "",
+          location: data.location || "",
+          avatarUrl: data.avatarUrl || "",
+        });
+      } catch (err) {
+        console.error("Failed to load vendor profile", err);
+      }
+    };
 
-    if (country && COUNTRY_CODES[country]) {
-      setCountryCode(COUNTRY_CODES[country].code);
-    }
+    loadProfile();
   }, []);
 
-  const handleImageClick = () => {
-    fileInputRef.current?.click();
+  /* ======================
+     HANDLERS
+  ====================== */
+  const handleChange = (key, value) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleImageChange = (e) => {
+  const handleImage = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setAvatar(URL.createObjectURL(file));
+
+    // UI preview only (no localStorage)
+    const previewUrl = URL.createObjectURL(file);
+    setForm((prev) => ({
+      ...prev,
+      avatarUrl: previewUrl,
+    }));
   };
 
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+
+      await updateVendorProfile({
+        businessName: form.businessName,
+        phone: form.phone,
+        bio: form.bio,
+        location: form.location,
+        avatarUrl: form.avatarUrl,
+      });
+
+    } catch (err) {
+      console.error("Failed to update vendor profile", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* ======================
+     UI
+  ====================== */
   return (
-    <div className="min-h-screen bg-neutral-100">
-      <div className="mx-auto w-full max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
-        {/* Title */}
-        <h1 className="text-xl font-semibold text-neutral-900">
-          Restaurant Profile
-        </h1>
-
-        {/* Avatar */}
-        <div className="mt-8 flex flex-col items-center">
-          <div className="h-28 w-28 rounded-full bg-neutral-300 flex items-center justify-center overflow-hidden">
-            {avatar ? (
-              <img
-                src={avatar}
-                alt="avatar"
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <FiUser size={52} className="text-neutral-500" />
-            )}
-          </div>
-
-          <button
-            onClick={handleImageClick}
-            className="mt-4 rounded-full border border-teal-400 bg-teal-100 px-6 py-2 text-sm font-medium text-teal-600 hover:bg-teal-200 transition"
-          >
-            Change Picture
-          </button>
-
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="hidden"
-          />
+    <div className="h-screen bg-neutral-100 overflow-hidden">
+      <div className="mx-auto w-full max-w-[390px] h-full flex flex-col">
+        {/* 🔹 Header */}
+        <div className="px-6 pt-4">
+          <h1 className="text-headlineSmall font-semibold text-neutral-900">
+            Restaurant Profile
+          </h1>
         </div>
 
-        {/* Form */}
-        <div className="mt-10 space-y-6">
-          {/* Restaurant Name */}
-          <div>
-            <label className="block text-sm font-medium text-neutral-700">
-              Restaurant Name
-            </label>
-            <input
-              value={restaurantName}
-              onChange={(e) => setRestaurantName(e.target.value)}
-              className="mt-2 w-full rounded-xl border border-neutral-300 px-4 py-3 text-sm focus:outline-none focus:border-teal-500"
-            />
-          </div>
-
-          {/* Phone Number */}
-          <div>
-            <label className="block text-sm font-medium text-neutral-700">
-              Phone Number
-            </label>
-
-            <div className="mt-2 flex gap-2">
-              {/* Country Code */}
-              <select
-                value={countryCode}
-                onChange={(e) => setCountryCode(e.target.value)}
-                className="rounded-xl border border-neutral-300 bg-white px-3 py-3 text-sm focus:outline-none focus:border-teal-500"
-              >
-                {Object.values(COUNTRY_CODES).map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {c.label}
-                  </option>
-                ))}
-              </select>
-
-              {/* Phone Input */}
-              <input
-                type="tel"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                value={phone}
-                onChange={(e) =>
-                  setPhone(e.target.value.replace(/\D/g, ""))
-                }
-                placeholder="03 123 456"
-                className="flex-1 rounded-xl border border-neutral-300 px-4 py-3 text-sm placeholder-neutral-400 focus:outline-none focus:border-teal-500"
-              />
+        {/* 🔹 Content */}
+        <div className="flex-1 px-6 pt-6 overflow-y-auto">
+          {/* Avatar */}
+          <div className="flex flex-col items-center">
+            <div className="h-28 w-28 rounded-full bg-neutral-300 flex items-center justify-center overflow-hidden">
+              {form.avatarUrl ? (
+                <img
+                  src={form.avatarUrl}
+                  alt="avatar"
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <FiUser size={54} className="text-neutral-500" />
+              )}
             </div>
-          </div>
 
-          {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-neutral-700">
-              Email
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your email..."
-              className="mt-2 w-full rounded-xl border border-neutral-300 px-4 py-3 text-sm placeholder-neutral-400 focus:outline-none focus:border-teal-500"
-            />
-          </div>
-
-          {/* Bio */}
-          <div>
-            <label className="block text-sm font-medium text-neutral-700">
-              Bio
-            </label>
-            <textarea
-              rows={3}
-              value={bio}
-              onChange={(e) => setBio(e.target.value)}
-              placeholder="Bio, e.g..."
-              className="mt-2 w-full rounded-xl border border-neutral-300 px-4 py-3 text-sm placeholder-neutral-400 focus:outline-none focus:border-teal-500 resize-none"
-            />
-          </div>
-
-          {/* Location */}
-          <div>
-            <label className="block text-sm font-medium text-neutral-700">
-              Restaurant Location
-            </label>
-            <select
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className="mt-2 w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm focus:outline-none focus:border-teal-500"
+            <button
+              onClick={() => fileRef.current?.click()}
+              className="mt-4 rounded-full border border-teal-300 bg-teal-100 px-6 py-2 text-bodySmall font-medium text-teal-600 hover:bg-teal-200 transition"
             >
-              <option value="">Select location...</option>
-              <option value="Beirut">Beirut</option>
-              <option value="Tripoli">Tripoli</option>
-              <option value="Saida">Saida</option>
-              <option value="Zahle">Zahle</option>
-              <option value="Jounieh">Jounieh</option>
-            </select>
+              Change Picture
+            </button>
+
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImage}
+            />
+          </div>
+
+          {/* Inputs */}
+          <div className="mt-8 space-y-4">
+            {[
+              ["Restaurant Name", "businessName", "Baraka Kitchen"],
+              ["Phone Number", "phone", "70 123 456"],
+              ["Email", "email", "email@example.com"],
+              ["Bio", "bio", "Short description..."],
+              ["Restaurant Location", "location", "Hamra, Beirut"],
+            ].map(([label, key, placeholder]) => (
+              <div key={key}>
+                <label className="text-bodySmall font-medium text-neutral-700">
+                  {label}
+                </label>
+
+                <input
+                  value={form[key]}
+                  onChange={(e) => handleChange(key, e.target.value)}
+                  placeholder={placeholder}
+                  disabled={key === "email"}
+                  className="
+                    mt-2 w-full rounded-xl border border-neutral-300
+                    bg-white px-4 py-3 text-bodyMedium
+                    text-neutral-900 placeholder-neutral-400
+                    focus:border-teal-500 focus:outline-none
+                    disabled:bg-neutral-100 disabled:text-neutral-500
+                  "
+                />
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Save */}
-        <div className="mt-10">
-          <button className="w-full sm:w-auto rounded-xl bg-teal-500 px-8 py-3.5 text-sm font-semibold text-white hover:bg-teal-600 transition">
-            Save
+        {/* 🔹 Save Button */}
+        <div className="px-6 pb-6">
+          <button
+            onClick={handleSave}
+            disabled={loading}
+            className="
+              w-full rounded-xl bg-teal-500 py-4
+              text-bodyMedium font-semibold text-white
+              hover:bg-teal-600 transition
+              disabled:bg-neutral-300
+            "
+          >
+            {loading ? "Saving..." : "Save"}
           </button>
         </div>
       </div>
