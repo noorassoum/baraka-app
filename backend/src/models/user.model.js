@@ -4,27 +4,27 @@ import bcrypt from "bcrypt";
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true, select: false },
     role: {
       type: String,
       enum: ["customer", "vendor", "admin"],
       default: "customer",
     },
+    phoneNumber: { type: String, default: "" },
+    bio: { type: String, default: "" },
+    avatarUrl: { type: String, default: "" },
   },
   { timestamps: true }
 );
 
-// 🔐 MONGOOSE 8 — do NOT use next()
-// Pre-save hashing works automatically
+// Hash password
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
-
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  this.password = await bcrypt.hash(this.password, 10);
 });
 
-// 🔐 Compare passwords
+// Compare password
 userSchema.methods.matchPassword = function (enteredPassword) {
   return bcrypt.compare(enteredPassword, this.password);
 };
