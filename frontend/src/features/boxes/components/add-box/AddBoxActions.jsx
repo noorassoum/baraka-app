@@ -1,41 +1,17 @@
-import { useNavigate } from "react-router-dom";
-
-export default function AddBoxActions() {
-  const navigate = useNavigate();
-
+export default function AddBoxActions({ onSave, onCancel, loading }) {
   return (
     <div className="mt-10 space-y-3">
-      {/* Save */}
       <button
-        type="button"
-        onClick={() => navigate("/vendor/boxes")}
-        className="
-          w-full
-          h-[44px]
-          rounded-[12px]
-          bg-[#2CB7AA]
-          text-white
-          text-sm
-          font-medium
-        "
+        onClick={onSave}
+        disabled={loading}
+        className="w-full h-[44px] rounded-xl bg-[#2CB7AA] text-white text-sm font-medium disabled:opacity-50"
       >
-        Save
+        {loading ? "Saving..." : "Save"}
       </button>
 
-      {/* Cancel */}
       <button
-        type="button"
-        onClick={() => navigate(-1)}
-        className="
-          w-full
-          h-[44px]
-          rounded-[12px]
-          border border-[#2CB7AA]
-          text-[#2CB7AA]
-          text-sm
-          font-medium
-          bg-white
-        "
+        onClick={onCancel}
+        className="w-full h-[44px] rounded-xl border border-[#2CB7AA] text-[#2CB7AA] text-sm font-medium"
       >
         Cancel
       </button>
