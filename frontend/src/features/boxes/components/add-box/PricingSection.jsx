@@ -1,80 +1,55 @@
-export default function PricingSection() {
+export default function PricingSection({ form, onChange }) {
   return (
-    <div className="space-y-4">
-      {/* Section title */}
-      <p className="text-sm font-medium text-[#1A1A1A]">
+    <div className="mt-8 space-y-5">
+      {/* SECTION TITLE */}
+      <h2 className="text-sm font-semibold text-neutral-900">
         Pricing
-      </p>
+      </h2>
 
-      {/* Divider */}
-      <div className="w-full h-px bg-[#EDEEEE]" />
-
-      {/* Price + Original Price (2 columns) */}
-      <div className="grid grid-cols-2 gap-4">
-        {/* Price */}
-        <div className="flex flex-col gap-1">
-          <label className="text-[12px] text-[#1A1A1A]">
-            Price ($) <span className="text-[#E53935]">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="e.g., 4.50"
-            className="
-              h-[44px]
-              rounded-[12px]
-              border border-[#DCDDDD]
-              px-4
-              text-sm
-              text-center
-              text-[#1A1A1A]
-              placeholder:text-[#A8A9A9]
-              focus:outline-none
-            "
-          />
-        </div>
-
-        {/* Original Price */}
-        <div className="flex flex-col gap-1">
-          <label className="text-[12px] text-[#1A1A1A]">
-            Original Price ($)
-          </label>
-          <input
-            type="text"
-            placeholder="e.g., 12.00"
-            className="
-              h-[44px]
-              rounded-[12px]
-              border border-[#DCDDDD]
-              px-4
-              text-sm
-              text-center
-              text-[#1A1A1A]
-              placeholder:text-[#A8A9A9]
-              focus:outline-none
-            "
-          />
-        </div>
-      </div>
-
-      {/* Available Quantity (full width) */}
-      <div className="flex flex-col gap-1">
-        <label className="text-[12px] text-[#1A1A1A]">
-          Available Quantity <span className="text-[#E53935]">*</span>
+      {/* Discounted price */}
+      <div>
+        <label className="block text-xs font-medium text-neutral-600 mb-1">
+          Discounted price ($) *
         </label>
         <input
-          type="text"
-          placeholder="e.g., 5"
-          className="
-            h-[44px]
-            rounded-[12px]
-            border border-[#DCDDDD]
-            px-4
-            text-sm
-            text-center
-            text-[#1A1A1A]
-            placeholder:text-[#A8A9A9]
-            focus:outline-none
-          "
+          type="number"
+          value={form.discountedPrice}
+          onChange={(e) =>
+            onChange("discountedPrice", e.target.value)
+          }
+          placeholder="e.g. 4.50"
+          className="w-full rounded-xl border border-neutral-200 px-4 py-3 text-sm"
+        />
+      </div>
+
+      {/* Original price */}
+      <div>
+        <label className="block text-xs font-medium text-neutral-600 mb-1">
+          Original price ($) *
+        </label>
+        <input
+          type="number"
+          value={form.originalPrice}
+          onChange={(e) =>
+            onChange("originalPrice", e.target.value)
+          }
+          placeholder="e.g. 12.00"
+          className="w-full rounded-xl border border-neutral-200 px-4 py-3 text-sm"
+        />
+      </div>
+
+      {/* Quantity */}
+      <div>
+        <label className="block text-xs font-medium text-neutral-600 mb-1">
+          Available quantity *
+        </label>
+        <input
+          type="number"
+          value={form.quantity}
+          onChange={(e) =>
+            onChange("quantity", e.target.value)
+          }
+          className="w-full rounded-xl border border-neutral-200 px-4 py-3 text-sm"
         />
       </div>
     </div>

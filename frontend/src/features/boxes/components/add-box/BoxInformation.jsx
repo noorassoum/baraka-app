@@ -1,74 +1,36 @@
-export default function BoxInformation() {
+export default function BoxInformation({ form, onChange }) {
   return (
-    <div className="space-y-4">
-      {/* Section title */}
-      <p className="text-sm font-medium text-[#1A1A1A]">
-        Box Information
-      </p>
-      {/* Divider */}
-      <div className="w-full h-px bg-[#EDEEEE]" />
-      
-      {/* Box Name */}
-      <div className="flex flex-col gap-1">
-        <label className="text-[12px] text-[#1A1A1A]">
-           Box Name <span className="text-[#E53935]">*</span>
-        </label>
+    <div className="mt-8 space-y-5">
+      {/* SECTION TITLE */}
+      <h2 className="text-sm font-semibold text-neutral-900">
+        Box information
+      </h2>
 
+      {/* Box name */}
+      <div>
+        <label className="block text-xs font-medium text-neutral-600 mb-1">
+          Box name *
+        </label>
         <input
-          type="text"
-          placeholder="Enter box name"
-          className="
-            h-[44px]
-            rounded-[12px]
-            border border-[#DCDDDD]
-            px-4
-            text-sm
-            text-[#1A1A1A]
-            placeholder:text-[#A8A9A9]
-            focus:outline-none
-          "
+          value={form.title}
+          onChange={(e) => onChange("title", e.target.value)}
+          placeholder="e.g. Chicken Pasta Box"
+          className="w-full rounded-xl border border-neutral-200 px-4 py-3 text-sm"
         />
       </div>
 
-      {/* Box Description */}
-      <div className="flex flex-col gap-1">
-        <label className="text-[12px] text-[#5A5B5B]">
-          Box description
+      {/* Description */}
+      <div>
+        <label className="block text-xs font-medium text-neutral-600 mb-1">
+          Box description *
         </label>
         <textarea
-          placeholder="Describe what’s inside the box"
-          rows={4}
-          className="
-            rounded-[12px]
-            border border-[#DCDDDD]
-            px-4 py-3
-            text-sm
-            text-[#1A1A1A]
-            placeholder:text-[#A8A9A9]
-            resize-none
-            focus:outline-none
-          "
+          value={form.description}
+          onChange={(e) => onChange("description", e.target.value)}
+          placeholder="Describe what's inside the box"
+          rows={3}
+          className="w-full rounded-xl border border-neutral-200 px-4 py-3 text-sm resize-none"
         />
-      </div>
-
-      {/* Box Category */}
-      <div className="flex flex-col gap-1">
-        <label className="text-[12px] text-[#5A5B5B]">
-          Box category
-        </label>
-        <div
-          className="
-            h-[44px]
-            rounded-[12px]
-            border border-[#DCDDDD]
-            px-4
-            flex items-center
-            text-sm
-            text-[#A8A9A9]
-          "
-        >
-          Select category
-        </div>
       </div>
     </div>
   );
