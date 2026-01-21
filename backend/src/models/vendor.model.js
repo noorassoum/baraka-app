@@ -8,8 +8,13 @@ const vendorSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true, select: false },
 
-    phone: { type: String, default: "" },
+    // vendor-specific fields
+   phone: { type: String, default: "" },
     location: { type: String, default: "" },
+
+    bio: { type: String, default: "" },
+    avatarUrl: { type: String, default: "" },
+     
   },
   { timestamps: true }
 );

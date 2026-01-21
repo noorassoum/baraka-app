@@ -3,6 +3,9 @@ import VendorDashboard from "../../features/auth/vendor/VendorDashboard";
 import VendorBoxDetails from "../../features/vendor-box-details/VendorBoxDetails";
 import VendorReservationDetails from "../../features/vendor-reservations/VendorReservationDetails";
 import AddBox from "../../features/boxes/pages/add-box/AddBox";
+import MyBoxes from "../../features/boxes/pages/my-boxes/MyBoxes";
+import VendorNotifications from "../../features/vendor-notifications/VendorNotifications";
+import VendorProfile from "../../features/vendor/VendorProfile"
 
 
 
@@ -22,9 +25,15 @@ export default function VendorRoutes() {
         path="reservations/:id"
         element={<VendorReservationDetails />}
       />
+    <Route path="boxes" element={<MyBoxes />} />
+
+    <Route path="notifications"
+     element={< VendorNotifications/>}
+     />
+      {/*Vendor profile */}
+      <Route path="profile" element={<VendorProfile />} />
 
     </Routes>
-
 
   );
 }
