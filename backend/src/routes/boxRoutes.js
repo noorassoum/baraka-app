@@ -18,16 +18,17 @@ const router = express.Router();
 
 router.get("/available", getAvailableBoxes);
 
-router.get("/:id", getBoxPublicById);
 
 /* ============================
    VENDOR (PROTECTED)
 ============================ */
 
 router.get("/my-boxes", protectVendor, getMyBoxes);
-router.post("/", protectVendor, createBox);
 router.put("/:id", protectVendor, updateBox);
 router.delete("/:id", protectVendor, deleteBox);
 router.patch("/:id/toggle", protectVendor, toggleAvailability);
+//public customer
+router.get("/:id", getBoxPublicById);
+
 
 export default router;

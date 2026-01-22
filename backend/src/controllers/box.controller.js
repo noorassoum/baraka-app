@@ -34,18 +34,20 @@ export const createBox = async (req, res) => {
 // GET ALL BOXES FOR LOGGED-IN VENDOR
 export const getMyBoxes = async (req, res) => {
   try {
-    const boxes = await Box.find({ vendor: req.vendor._id }).sort("-createdAt");
+    console.log("Vendor ID:", req.vendor._id);
+    console.log("Type of vendor ID:", typeof req.vendor._id);
 
-    res.status(200).json({
-      count: boxes.length,
-      boxes
+    const boxes = await Box.find({
+      vendor: req.vendor._id,
     });
 
+    res.status(200).json({ boxes });
   } catch (error) {
-    console.log("GET MY BOXES ERROR:", error);
-    res.status(500).json({ message: "Server error" });
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch vendor boxes" });
   }
 };
+
 
 // UPDATE BOX
 export const updateBox = async (req, res) => {

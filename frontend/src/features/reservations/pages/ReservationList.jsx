@@ -40,7 +40,7 @@ const ReservationList = () => {
       <PageWrapper>
         <Header
           title="My Orders"
-          onBack={() => navigate("/reservation-success")}
+          onBack={() => navigate("/customer")}
           showBurger
           onBurgerClick={() => setIsSidebarOpen(true)}
         />
@@ -71,9 +71,9 @@ const ReservationList = () => {
               >
                 <div className="flex gap-3">
                   <img
-                    src={reservation.box?.image}
+                    src={reservation.box?.image || "/placeholder.png"}
                     alt={reservation.box?.title}
-                    className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
+                    className="w-20 h-20 rounded-lg object-cover"
                   />
 
                   <div className="flex-1">
@@ -95,7 +95,7 @@ const ReservationList = () => {
 
                     <div className="space-y-2 text-xs text-neutral-600">
                       <div className="flex items-center gap-2">
-                        <BsClock className="text-teal-600 text-sm" />
+                        <BsClock className="text-teal-600" />
                         <span>{reservation.pickupTime}</span>
                       </div>
 
@@ -105,7 +105,7 @@ const ReservationList = () => {
                     <div className="mt-3 flex justify-end">
                       <button
                         onClick={() =>
-                          navigate(`/reservations/${reservation._id}`)
+                          navigate(`/customer/reservations/${reservation._id}`)
                         }
                         className="text-xs font-medium text-teal-600"
                       >
@@ -118,12 +118,11 @@ const ReservationList = () => {
             ))}
 
           {!loading && reservations.length === 0 && (
-           <div className="flex min-h-screen items-center justify-center">
-  <p className="relative -top-8 text-center text-base text-neutral-500">
-    No reservations found.
-  </p>
-</div>
-
+            <div className="flex min-h-screen items-center justify-center">
+              <p className="relative -top-8 text-center text-base text-neutral-500">
+                No reservations found.
+              </p>
+            </div>
           )}
         </div>
       </PageWrapper>
