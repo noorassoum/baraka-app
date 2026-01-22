@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Clock, MapPin } from "lucide-react";
 
@@ -7,35 +8,55 @@ import Badge from "../../../components/ui/Badge";
 import Button from "../../../components/ui/Button";
 
 import successBox from "../../../assets/successbox.png";
-
-/* ---------- MOCK DATA ---------- */
-const reservationData = {
-  item: {
-    title: "Chicken Pasta Box",
-    restaurant: "Bella Ciao Restaurant",
-    image:
-      "https://images.unsplash.com/photo-1603133872878-684f208fb84b",
-    leftCount: 3,
-    tag: "Meals",
-  },
-  pickup: "Today · 5:00 PM – 7:00 PM",
-  address: "Bella Ciao Restaurant, Al Mina Street, Tripoli",
-};
-/* ------------------------------- */
+import { getLatestReservation } from "../../reservations/reservations.api";
 
 export default function ReservationSuccess() {
   const navigate = useNavigate();
+  const [reservation, setReservation] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchReservation = async () => {
+      try {
+        const latest = await getLatestReservation();
+        setReservation(latest);
+      } catch (err) {
+        console.error("Failed to load reservation", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReservation();
+  }, []);
+
+  if (loading) {
+    return (
+      <PageWrapper className="flex items-center justify-center h-screen">
+        Loading...
+      </PageWrapper>
+    );
+  }
+
+  if (!reservation) {
+    return (
+      <PageWrapper className="flex items-center justify-center h-screen">
+        No reservation found.
+      </PageWrapper>
+    );
+  }
+
+  const { box, vendor, pickupTime } = reservation;
 
   return (
     <PageWrapper className="w-full">
-      {/* CENTERED CONTENT CONTAINER */}
-      <div className="w-full max-w-md mx-auto px-3 sm:px-4 md:px-6 flex flex-col items-center text-center">
+      <div className="w-full max-w-md mx-auto px-4 flex flex-col items-center text-center">
         {/* Illustration */}
-        <div className="mt-6 w-full h-[180px] flex items-center justify-center">
+        <div className="mt-6 h-[180px] flex items-center justify-center">
           <img
             src={successBox}
             alt="Reservation confirmed"
-            className="h-full w-auto object-contain"
+            className="h-full object-contain"
           />
         </div>
 
@@ -44,70 +65,69 @@ export default function ReservationSuccess() {
           Reservation Confirmed!
         </h1>
 
-        {/* Subtitle */}
         <p className="mt-2 text-bodyMedium text-neutral-600">
-          <span className="block">
-            Your box is now reserved and will be
-          </span>
-          <span className="block">
-            ready for pickup.
-          </span>
+          Your box is now reserved and ready for pickup.
         </p>
 
         {/* Order Card */}
         <Card className="mt-6 w-full flex items-center gap-3 p-4">
           <img
-            src={reservationData.item.image}
-            alt={reservationData.item.title}
+            src={box.image}
+            alt={box.title}
             className="w-14 h-14 rounded-lg object-cover"
           />
 
           <div className="flex-1 text-left">
             <h3 className="text-titleMedium font-semibold text-neutral-900">
-              {reservationData.item.title}
+              {box.title}
             </h3>
-            <p className="mt-0.5 text-bodySmall text-neutral-500">
-              {reservationData.item.restaurant}
+
+            <p className="text-bodySmall text-neutral-500">
+              {vendor.businessName}
             </p>
 
             <div className="mt-2 flex gap-2">
               <Badge variant="error">
-                {reservationData.item.leftCount} Left
+                {box.quantity} Left
               </Badge>
               <Badge variant="success">
-                {reservationData.item.tag}
+                Meals
               </Badge>
             </div>
           </div>
         </Card>
 
         {/* Pickup Info */}
-        <div className="mt-6 w-full space-y-4 text-left px-6">
+        <div className="mt-6 w-full space-y-4 text-left px-4">
           <div className="flex items-center gap-3">
-            <Clock className="w-5 h-5 text-teal-500 flex-shrink-0" />
+            <Clock className="w-5 h-5 text-teal-500" />
             <p className="text-bodySmall text-neutral-700">
-              Pickup: {reservationData.pickup}
+              Pickup: {pickupTime}
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <MapPin className="w-5 h-5 text-teal-500 flex-shrink-0" />
+            <MapPin className="w-5 h-5 text-teal-500" />
             <p className="text-bodySmall text-neutral-700">
-              {reservationData.address}
+              {vendor.location}
             </p>
           </div>
         </div>
 
         {/* Actions */}
         <div className="mt-6 w-full space-y-3">
-          <Button fullWidth className="h-12 rounded-xl text-base font-medium">
+          <Button
+            fullWidth
+            className="h-12 rounded-xl"
+            onClick={() => navigate("/customer/reservationsList")}
+          >
             View My Orders
           </Button>
 
           <Button
             fullWidth
             variant="outline"
-            className="h-12 rounded-xl text-base font-medium"
+            className="h-12 rounded-xl"
             onClick={() => navigate("/customer")}
           >
             Back Home

@@ -49,3 +49,20 @@ export const getPastReservations = async () => {
     ],
   };
 };
+/**
+ * RESERVE A BOX
+ * POST /reservations
+ */
+export const reserveBox = async (boxId) => {
+  const { data } = await API.post("/reservations", {
+    boxId,
+  });
+  return data;
+};
+export const getLatestReservation = async () => {
+  const res = await API.get("/reservations/my", {
+    params: { status: "reserved", limit: 1 },
+  });
+
+  return res.data.reservations?.[0];
+};

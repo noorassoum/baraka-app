@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import Header from "../../../components/layout/Header";
 import PageWrapper from "../../../components/layout/PageWrapper";
-import Sidebar from "../../../components/layout/SideBar";
-
+import Sidebar from '../../../components/layout/Sidebar';
 import { Clock, MapPin } from "lucide-react";
 
 const ReservationDetails = () => {

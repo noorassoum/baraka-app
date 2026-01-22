@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 import BoxImageCarousel from "./components/BoxImageCarousel";
 import BoxHeader from "./components/BoxHeader";
@@ -8,51 +8,58 @@ import BoxTabs from "./components/BoxTabs";
 import BoxDescription from "./components/BoxDescription";
 import PickupWindow from "./components/PickupWindow";
 import BoxBottomCTA from "./components/BoxBottomCTA";
-
-// images
-import pastabox from "../../assets/pastabox.png";
-import homebox from "../../assets/homebox.png";
+import { getBoxById } from "../boxes/boxes.api";
 
 export default function BoxDetails() {
+  const { id } = useParams();
   const navigate = useNavigate();
+
+  const [box, setBox] = useState(null);
   const [activeTab, setActiveTab] = useState("description");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getBoxById(id)
+      .then(setBox)
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) return <div className="p-10">Loading...</div>;
+  if (!box) return <div className="p-10">Box not found</div>;
 
   return (
     <div className="min-h-screen bg-neutral-100 pb-32">
-      {/* Image carousel */}
       <BoxImageCarousel
-        images={[pastabox, homebox]}
+        images={[box.image]}
         onBack={() => navigate(-1)}
       />
 
-      {/* Main content */}
       <div className="px-5 pt-5 space-y-6">
-        <BoxHeader />
-        <BoxMeta />
+        <BoxHeader
+          title={box.title}
+          restaurant={box.vendor.businessName}
+        />
 
-        {/* Tabs */}
+        <BoxMeta quantity={box.quantity} />
+
         <BoxTabs
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
 
-        {/* Tab content */}
         {activeTab === "description" && (
           <>
-            <BoxDescription />
-            <PickupWindow />
+            <BoxDescription description={box.description} />
+            <PickupWindow pickupTime={box.pickupTime} />
           </>
-        )}
-
-        {activeTab === "review" && (
-          <div className="text-neutral-500 text-sm">
-            Reviews coming soon.
-          </div>
         )}
       </div>
 
-      {/* Sticky bottom CTA */}
-      <BoxBottomCTA />
+      <BoxBottomCTA
+        price={box.discountedPrice}
+        disabled={!box.available}
+        onReserve={() => navigate(`/customer/reserve/${box._id}`)}
+      />
     </div>
   );
 }

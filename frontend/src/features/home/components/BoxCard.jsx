@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 export default function BoxCard({
+  id,
   image,
   title,
   restaurant,
@@ -8,10 +11,14 @@ export default function BoxCard({
   status,
   left,
 }) {
+  const navigate = useNavigate();
   const isSoldOut = status === "sold";
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+    <div
+      onClick={() => navigate(`/customer/boxes/${id}`)}
+      className="bg-white rounded-2xl shadow-sm overflow-hidden cursor-pointer"
+    >
       <div className="relative">
         <img src={image} alt={title} className="w-full h-48 object-cover" />
 
@@ -52,14 +59,18 @@ export default function BoxCard({
 
           <button
             disabled={isSoldOut}
-            className={`px-4 py-2 rounded-xl text-sm font-semibold ${
-              isSoldOut
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/customer/boxes/${id}`);
+            }}
+            className={`px-4 py-2 rounded-xl text-sm font-semibold ${isSoldOut
                 ? "bg-neutral-200 text-neutral-400 cursor-not-allowed"
                 : "bg-teal-500 text-white hover:bg-teal-600"
-            }`}
+              }`}
           >
             {isSoldOut ? "Not Available" : "View Box"}
           </button>
+
         </div>
       </div>
     </div>

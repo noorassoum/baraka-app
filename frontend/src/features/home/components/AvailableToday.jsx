@@ -39,18 +39,18 @@ export default function AvailableToday() {
         {boxes.map((box) => (
           <BoxCard
             key={box._id}
+            id={box._id}
             image={box.image}
             title={box.title}
-            restaurant={box.vendor?.businessName}
+            restaurant={box.vendor.businessName}
             description={box.description}
             pickup={box.pickupTime}
             price={`$${box.discountedPrice}`}
+            left={`${box.quantity} Left`}
             status={box.available ? "available" : "sold"}
-            left={
-              box.quantity > 0 ? `${box.quantity} Left` : null
-            }
           />
         ))}
+
       </div>
     </section>
   );

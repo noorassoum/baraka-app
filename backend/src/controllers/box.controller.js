@@ -156,3 +156,22 @@ export const getAvailableBoxes = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+// ===============================
+// GET SINGLE BOX (PUBLIC)
+// ===============================
+export const getBoxPublicById = async (req, res) => {
+  try {
+    const box = await Box.findById(req.params.id)
+      .populate("vendor", "businessName location");
+
+    if (!box) {
+      return res.status(404).json({ message: "Box not found" });
+    }
+
+    res.status(200).json({ box });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
