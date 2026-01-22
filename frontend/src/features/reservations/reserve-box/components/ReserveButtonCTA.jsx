@@ -1,4 +1,4 @@
-export default function ReservationButtonCTA({ onReserve }) {
+export default function ReserveButtonCTA({ onReserve }) {
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 px-5 py-4">
       <button

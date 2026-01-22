@@ -1,9 +1,9 @@
-export default function PriceSummary() {
+export default function PriceSummary({ price }) {
   return (
     <div className="bg-white rounded-2xl p-4 space-y-3">
       <div className="flex justify-between text-sm text-neutral-700">
         <span>Subtotal</span>
-        <span>$4.50</span>
+        <span>${price}</span>
       </div>
 
       <div className="flex justify-between text-sm text-neutral-500">
@@ -18,7 +18,7 @@ export default function PriceSummary() {
           Total
         </span>
         <span className="font-semibold text-orange-500 text-lg">
-          $4.50
+          ${price}
         </span>
       </div>
     </div>

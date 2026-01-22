@@ -1,6 +1,6 @@
 import { Clock } from "lucide-react";
 
-export default function PickupWindow() {
+export default function PickupWindow({ pickupTime }) {
   return (
     <div className="flex gap-3 items-start">
       <Clock className="text-teal-500 mt-1" size={18} />
@@ -9,7 +9,7 @@ export default function PickupWindow() {
           Pickup Window
         </p>
         <p className="text-sm text-neutral-600">
-          Today · 5:00 PM – 7:00 PM
+          {pickupTime}
         </p>
       </div>
     </div>
